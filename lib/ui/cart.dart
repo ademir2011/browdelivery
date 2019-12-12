@@ -7,6 +7,9 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  String defaultValue = "1";
+  TimeOfDay horarioChegada;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,14 +33,71 @@ class _CartState extends State<Cart> {
   }
 
   Widget buildList() {
-    return ListView(
-      children: <Widget>[
-        Card(
-          child: ListTile(
-            title: Text("Quantidade"),
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Card(
+                child: ListTile(
+                  title: Text("Quantidade"),
+                  trailing: DropdownButton(
+                    value: defaultValue,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        defaultValue = newValue;
+                      });
+                    },
+                    items: ["1", "2", "3", "4"].map((item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Local da entrega',
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text(horarioChegada == null
+                        ? 'Hora de chegada'
+                        : "${horarioChegada.hour}:${horarioChegada.minute}"),
+                    onPressed: () async {
+                      TimeOfDay tod = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+
+                      setState(() {
+                        horarioChegada = tod;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
-        ),
-      ],
+          RaisedButton(
+            child: Text('Solicitar'),
+            onPressed: () {},
+          )
+        ],
+      ),
     );
   }
 }
