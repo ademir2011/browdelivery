@@ -1,3 +1,4 @@
+import 'package:brow/ui/wait.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,6 +14,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: buildAppBar(),
       body: Center(
         child: buildList(),
@@ -94,7 +96,10 @@ class _CartState extends State<Cart> {
           ),
           RaisedButton(
             child: Text('Solicitar'),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Wait()));
+            },
           )
         ],
       ),
