@@ -1,19 +1,34 @@
+import 'package:brow/model/order.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:brow/ui/cart.dart';
 
 class Home extends StatefulWidget {
+  final Order order;
+
+  Home({Key key, this.order}) : super(key: key);
+
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(order);
 }
 
 class _HomeState extends State<Home> {
+  Order order;
+
+  _HomeState(this.order);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: Center(
-        child: buildListView(),
+      body: Column(
+        children: <Widget>[
+          buildCardWaiting(),
+          buildCardSection(),
+          Expanded(
+            child: buildListView(),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -63,6 +78,75 @@ class _HomeState extends State<Home> {
         subtitle: Text('Quantidade: 3212'),
         onTap: () {},
         trailing: Icon(FontAwesomeIcons.undo),
+      ),
+    );
+  }
+
+  Widget buildCardSection() {
+    return Container(
+      width: 300.0,
+      child: Card(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
+            Icon(
+              FontAwesomeIcons.bars,
+              size: 50.0,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "Histórico de compras",
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildCardWaiting() {
+    return Container(
+      width: 300.0,
+      child: Card(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
+            Icon(
+              FontAwesomeIcons.history,
+              size: 50.0,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "Acompanhe o status do seu pedido",
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Divider(
+              color: Colors.brown,
+              height: 20.0,
+            ),
+            Text(
+                "Status: ${order?.orderAproved == null ? 'pedido não autorizado' : order.orderAproved ? 'pedido realizado' : 'pedido não realizado'}"),
+            SizedBox(
+              height: 10.0,
+            ),
+          ],
+        ),
       ),
     );
   }

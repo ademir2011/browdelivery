@@ -1,3 +1,4 @@
+import 'package:brow/model/order.dart';
 import 'package:brow/ui/wait.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -98,7 +99,16 @@ class _CartState extends State<Cart> {
             child: Text('Solicitar'),
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Wait()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Wait(
+                    order: Order(
+                        amountBrownie: 5,
+                        location: "teste",
+                        orderAproved: true),
+                  ),
+                ),
+              );
             },
           )
         ],
