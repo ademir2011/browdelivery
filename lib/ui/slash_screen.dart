@@ -1,4 +1,4 @@
-import 'package:brow/ui/home.dart';
+import 'package:brow/ui/autentication.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -17,10 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(duration).then((_) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) => Home(
-                  order: null,
-                )),
+        MaterialPageRoute(builder: (context) => Autentication()),
       );
     });
   }

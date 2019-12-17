@@ -18,21 +18,6 @@ class _HomeState extends State<Home> {
 
   _HomeState(this.order);
 
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    logar();
-  }
-
-  void logar() {
-    _googleSignIn.signIn().then((data) {
-      print('Usuário ${data.displayName} autenticado!');
-    }).catchError((err) => print(err));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
