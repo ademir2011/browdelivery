@@ -2,6 +2,7 @@ import 'package:brow/model/order.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:brow/ui/cart.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Home extends StatefulWidget {
   final Order order;
@@ -16,6 +17,21 @@ class _HomeState extends State<Home> {
   Order order;
 
   _HomeState(this.order);
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    logar();
+  }
+
+  void logar() {
+    _googleSignIn.signIn().then((data) {
+      print('Usuário ${data.displayName} autenticado!');
+    }).catchError((err) => print(err));
+  }
 
   @override
   Widget build(BuildContext context) {

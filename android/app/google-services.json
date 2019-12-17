@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "147079606087",
+    "firebase_url": "https://brow-app.firebaseio.com",
+    "project_id": "brow-app",
+    "storage_bucket": "brow-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147079606087:android:622cf8a0cb44e0e1f12662",
+        "android_client_info": {
+          "package_name": "br.com.ademir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "147079606087-q6qq8n7fh8brb7dmjeu5i5fdhp6c4knf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.ademir",
+            "certificate_hash": "3a1b16e5692c0a54949727d53e582ddef8b1c1f3"
+          }
+        },
+        {
+          "client_id": "147079606087-5hj7ll9on3dejvfi6qgkihcuamgtp7qg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZnhJaxbUSjzFMGJdXKGcrJ84I2GazrFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "147079606087-5hj7ll9on3dejvfi6qgkihcuamgtp7qg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
