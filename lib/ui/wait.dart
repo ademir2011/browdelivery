@@ -28,30 +28,33 @@ class _WaitState extends State<Wait> {
 
     print(order.amountBrownie);
 
-    Duration duration = Duration(seconds: 3);
+    // Duration duration = Duration(seconds: 3);
 
-    Future.delayed(duration).then((_) {
-      setState(() {
-        status = "confirmação realizada";
-      });
-      Future.delayed(duration).then(
-        (_) => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Home(
-              order: order,
-            ),
-          ),
-        ),
-      );
-    });
+    // Future.delayed(duration).then((_) {
+    //   setState(() {
+    //     status = "confirmação realizada";
+    //   });
+    //   Future.delayed(duration).then(
+    //     (_) => Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => Home(
+    //           order: order,
+    //         ),
+    //       ),
+    //     ),
+    //   );
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: buildLoading(),
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: buildAccept(),
+      ),
     );
   }
 
@@ -79,6 +82,90 @@ class _WaitState extends State<Wait> {
           Text("Status: $status"),
         ],
       ),
+    );
+  }
+
+  Widget buildAccept() {
+    return Column(
+      children: <Widget>[
+        Text('Pedidos pendentes'),
+        SizedBox(
+          height: 10.0,
+        ),
+        Card(
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(FontAwesomeIcons.accessibleIcon),
+                title: Text('Nome: Fulana de Tal'),
+                subtitle: Text(
+                  'Local de Entrega: testdefsd\nQuantidade:23\nHora da Entrega: 12:22',
+                ),
+              ),
+              Divider(
+                height: 3,
+                thickness: 1.5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text('RECUSAR'),
+                    onPressed: () {},
+                  ),
+                  SizedBox(
+                    width: 50.0,
+                  ),
+                  RaisedButton(
+                    child: Text('ACEITAR'),
+                    onPressed: () {},
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        Text('Pedidos Autorizados'),
+        SizedBox(
+          height: 10.0,
+        ),
+        Card(
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(FontAwesomeIcons.accessibleIcon),
+                title: Text('Nome: Fulana de Tal'),
+                subtitle: Text(
+                  'Local de Entrega: testdefsd\nQuantidade:23\nHora da Entrega: 12:22',
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        Text('Pedidos Concluídos'),
+        SizedBox(
+          height: 10.0,
+        ),
+        Card(
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(FontAwesomeIcons.accessibleIcon),
+                title: Text('Nome: Fulana de Tal'),
+                subtitle: Text(
+                  'Local de Entrega: testdefsd\nQuantidade:23\nHora da Entrega: 12:22',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

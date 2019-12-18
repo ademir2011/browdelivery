@@ -1,3 +1,4 @@
+import 'package:brow/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,9 +15,9 @@ class _AutenticationState extends State<Autentication> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
-      body: buildLogin(),
-    );
+        appBar: buildAppBar(),
+        body: buildLogin(),
+        resizeToAvoidBottomPadding: false);
   }
 
   Widget buildAppBar() {
@@ -101,8 +102,16 @@ class _AutenticationState extends State<Autentication> {
   }
 
   void logar() {
-    _googleSignIn.signIn().then((data) {
-      print('Usuário ${data.displayName} autenticado!');
+    _googleSignIn.signIn().then((gData) {
+      print('Usuário ${gData.displayName} autenticado!');
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (build) => Home(
+                    order: null,
+                    gData: gData,
+                    googleSignIn: _googleSignIn,
+                  )));
     }).catchError((err) => print(err));
   }
 }

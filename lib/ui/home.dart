@@ -1,4 +1,5 @@
 import 'package:brow/model/order.dart';
+import 'package:brow/ui/autentication.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:brow/ui/cart.dart';
@@ -6,17 +7,21 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class Home extends StatefulWidget {
   final Order order;
+  final GoogleSignInAccount gData;
+  final GoogleSignIn googleSignIn;
 
-  Home({Key key, this.order}) : super(key: key);
+  Home({Key key, this.order, this.gData, this.googleSignIn}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState(order);
+  _HomeState createState() => _HomeState(order, gData, googleSignIn);
 }
 
 class _HomeState extends State<Home> {
   Order order;
+  GoogleSignInAccount gData;
+  GoogleSignIn _googleSignIn;
 
-  _HomeState(this.order);
+  _HomeState(this.order, this.gData, this._googleSignIn);
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +55,23 @@ class _HomeState extends State<Home> {
   Widget buildAppBar() {
     return AppBar(
       title: Text("Brow Delivery"),
+      actions: <Widget>[
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+          child: IconButton(
+            icon: Icon(FontAwesomeIcons.times),
+            onPressed: () {
+              _googleSignIn.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Autentication(),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
