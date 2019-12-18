@@ -105,13 +105,15 @@ class _AutenticationState extends State<Autentication> {
     _googleSignIn.signIn().then((gData) {
       print('Usuário ${gData.displayName} autenticado!');
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (build) => Home(
-                    order: null,
-                    gData: gData,
-                    googleSignIn: _googleSignIn,
-                  )));
+        context,
+        MaterialPageRoute(
+          builder: (build) => Home(
+            order: null,
+            gData: gData,
+            googleSignIn: _googleSignIn,
+          ),
+        ),
+      );
     }).catchError((err) => print(err));
   }
 }
