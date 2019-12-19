@@ -18,34 +18,24 @@ class Wait extends StatefulWidget {
 class _WaitState extends State<Wait> {
   Order order;
   String status = "Arguardando resposta";
+  var ordersWaiting = [
+    Order(
+        amountBrownie: 4,
+        location: "Sala A321",
+        orderAproved: false,
+        tod: TimeOfDay.now()),
+    Order(
+        amountBrownie: 2,
+        location: "Sala B201",
+        orderAproved: false,
+        tod: TimeOfDay.now())
+  ];
+
+  var ordersAccepted = [];
+  var ordersRecused = [];
+  var ordersFinished = [];
 
   _WaitState(this.order);
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    print(order.amountBrownie);
-
-    // Duration duration = Duration(seconds: 3);
-
-    // Future.delayed(duration).then((_) {
-    //   setState(() {
-    //     status = "confirmação realizada";
-    //   });
-    //   Future.delayed(duration).then(
-    //     (_) => Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => Home(
-    //           order: order,
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    // });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,37 +82,52 @@ class _WaitState extends State<Wait> {
         SizedBox(
           height: 10.0,
         ),
-        Card(
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(FontAwesomeIcons.accessibleIcon),
-                title: Text('Nome: Fulana de Tal'),
-                subtitle: Text(
-                  'Local de Entrega: testdefsd\nQuantidade:23\nHora da Entrega: 12:22',
+        Expanded(
+          child: ListView.builder(
+            itemCount: ordersWaiting.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(FontAwesomeIcons.bars),
+                      title: Text('Nome: Fulana de Tal'),
+                      subtitle: Text(
+                        'Local de Entrega: ${ordersWaiting[index].location}\nQuantidade:${ordersWaiting[index].amountBrownie}\nHora da Entrega: ${ordersWaiting[index].tod.hour}:${ordersWaiting[index].tod.minute}',
+                      ),
+                    ),
+                    Divider(
+                      height: 3,
+                      thickness: 1.5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text('RECUSAR'),
+                          onPressed: () {},
+                        ),
+                        SizedBox(
+                          width: 50.0,
+                        ),
+                        RaisedButton(
+                          child: Text('ACEITAR'),
+                          onPressed: () {
+                            if (order != null) {
+                              setState(() {
+                                ordersWaiting.removeAt(index);
+                                order.orderAproved = true;
+                                ordersAccepted.add(order);
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-              ),
-              Divider(
-                height: 3,
-                thickness: 1.5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text('RECUSAR'),
-                    onPressed: () {},
-                  ),
-                  SizedBox(
-                    width: 50.0,
-                  ),
-                  RaisedButton(
-                    child: Text('ACEITAR'),
-                    onPressed: () {},
-                  ),
-                ],
-              )
-            ],
+              );
+            },
           ),
         ),
         SizedBox(
@@ -132,39 +137,26 @@ class _WaitState extends State<Wait> {
         SizedBox(
           height: 10.0,
         ),
-        Card(
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(FontAwesomeIcons.accessibleIcon),
-                title: Text('Nome: Fulana de Tal'),
-                subtitle: Text(
-                  'Local de Entrega: testdefsd\nQuantidade:23\nHora da Entrega: 12:22',
+        Expanded(
+          child: ListView.builder(
+            itemCount: ordersAccepted.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(FontAwesomeIcons.bars),
+                      title: Text('Nome: Fulana de Tal'),
+                      subtitle: Text(
+                        'Local de Entrega: ${ordersAccepted[index].location}\nQuantidade:${ordersAccepted[index].amountBrownie}\nHora da Entrega: ${ordersAccepted[index].tod.hour}:${ordersAccepted[index].tod.minute}',
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              );
+            },
           ),
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        Text('Pedidos Concluídos'),
-        SizedBox(
-          height: 10.0,
-        ),
-        Card(
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(FontAwesomeIcons.accessibleIcon),
-                title: Text('Nome: Fulana de Tal'),
-                subtitle: Text(
-                  'Local de Entrega: testdefsd\nQuantidade:23\nHora da Entrega: 12:22',
-                ),
-              ),
-            ],
-          ),
-        ),
+        )
       ],
     );
   }

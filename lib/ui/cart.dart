@@ -9,12 +9,17 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  String defaultValue = "1";
+  String defaultValue = null;
   TimeOfDay horarioChegada;
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Order order = Order();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: buildAppBar(),
       body: Center(
@@ -38,81 +43,108 @@ class _CartState extends State<Cart> {
   Widget buildList() {
     return Padding(
       padding: EdgeInsets.all(10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Card(
-                child: ListTile(
-                  title: Text("Quantidade"),
-                  trailing: DropdownButton(
-                    value: defaultValue,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        defaultValue = newValue;
-                      });
-                    },
-                    items: ["1", "2", "3", "4"].map((item) {
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                  ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                buildAmount(),
+                SizedBox(
+                  height: 20.0,
                 ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Local da entrega',
+                buildPlace(),
+                SizedBox(
+                  height: 20.0,
                 ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text(horarioChegada == null
-                        ? 'Hora de chegada'
-                        : "${horarioChegada.hour}:${horarioChegada.minute}"),
-                    onPressed: () async {
-                      TimeOfDay tod = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.now(),
-                      );
-
-                      setState(() {
-                        horarioChegada = tod;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          RaisedButton(
-            child: Text('Solicitar'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Wait(
-                    order: Order(
-                        amountBrownie: 5,
-                        location: "teste",
-                        orderAproved: true),
-                  ),
-                ),
-              );
-            },
-          )
-        ],
+                buildDate(),
+              ],
+            ),
+            buildSubmit(),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget buildAmount() {
+    return DropdownButtonFormField(
+      value: defaultValue ?? null,
+      decoration: InputDecoration(labelText: "Quantidade de Brownie"),
+      onChanged: (String newValue) {
+        order.amountBrownie = int.parse(newValue);
+        setState(() {
+          defaultValue = newValue;
+        });
+      },
+      items: ["0", "1", "2", "3", "4"].map((item) {
+        return DropdownMenuItem(
+          value: item,
+          child: Text(item),
+        );
+      }).toList(),
+      validator: (value) => int.parse(value) < 1 ? 'Valo menor que 1' : null,
+    );
+  }
+
+  Widget buildPlace() {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Local da entrega',
+      ),
+      validator: (value) {
+        if (value.isEmpty)
+          return 'Texto inválido!';
+        else
+          return null;
+      },
+      onChanged: (value) {
+        order.location = value;
+      },
+    );
+  }
+
+  Widget buildDate() {
+    return RaisedButton(
+      child: Text(horarioChegada == null
+          ? 'Hora de chegada'
+          : "${horarioChegada.hour}:${horarioChegada.minute}"),
+      onPressed: () async {
+        TimeOfDay tod = await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.now(),
+        ).then((value) {
+          if (value == null)
+            _scaffoldKey.currentState.showSnackBar(SnackBar(
+              content: Text('Hora não selecionada!'),
+            ));
+          order.tod = value;
+          return value;
+        });
+
+        setState(() {
+          horarioChegada = tod;
+        });
+      },
+    );
+  }
+
+  Widget buildSubmit() {
+    return RaisedButton(
+      child: Text('Solicitar'),
+      onPressed: () {
+        if (_formKey.currentState.validate() && horarioChegada != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Wait(
+                order: order,
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

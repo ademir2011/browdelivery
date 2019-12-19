@@ -114,6 +114,6 @@ class _AutenticationState extends State<Autentication> {
           ),
         ),
       );
-    }).catchError((err) => print(err));
+    }).catchError((err) => print('error ==> $err'));
   }
 }
