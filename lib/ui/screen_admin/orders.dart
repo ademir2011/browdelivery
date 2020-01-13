@@ -4,11 +4,39 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Orders extends StatefulWidget {
+  String typeScreen;
+
+  Orders({this.typeScreen});
+
   @override
-  _OrdersState createState() => _OrdersState();
+  _OrdersState createState() => _OrdersState(typeScreen);
 }
 
 class _OrdersState extends State<Orders> {
+  String typeScreen;
+
+  _OrdersState(this.typeScreen);
+
+  String typeScreenName(String typeScreen) {
+    return typeScreen == "PEDIDOS_FEITOS"
+        ? 'Feitos'
+        : typeScreen == "PEDIDOS_AUTORIZADOS"
+            ? 'Autorizados'
+            : typeScreen == "PEDIDOS_CANCELADOS"
+                ? 'Cancelados'
+                : typeScreen == "PEDIDOS_CONCLUIDOS" ? 'Concluídos' : null;
+  }
+
+  String typeScreenCutName(String typeScreen) {
+    return typeScreen == "PEDIDOS_FEITOS"
+        ? 'FEITO'
+        : typeScreen == "PEDIDOS_AUTORIZADOS"
+            ? 'AUTORIZADO'
+            : typeScreen == "PEDIDOS_CANCELADOS"
+                ? 'CANCELADO'
+                : typeScreen == "PEDIDOS_CONCLUIDOS" ? 'CONCLUIDO' : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +44,7 @@ class _OrdersState extends State<Orders> {
       body: Column(
         children: <Widget>[
           Text(
-            'Pedidos x',
+            'Pedidos ' + typeScreenName(typeScreen),
             style: TextStyle(fontSize: 20.0),
           ),
           Expanded(
@@ -35,7 +63,10 @@ class _OrdersState extends State<Orders> {
 
   Widget buildList() {
     return StreamBuilder(
-      stream: Firestore.instance.collection('orders').snapshots(),
+      stream: Firestore.instance
+          .collection('orders')
+          .where("orderStatus", isEqualTo: typeScreenCutName(typeScreen))
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Text('Nenhum dado!');
 
@@ -43,7 +74,7 @@ class _OrdersState extends State<Orders> {
           itemCount: snapshot.data.documents.length,
           itemBuilder: (context, index) {
             DocumentSnapshot doc = snapshot.data.documents[index];
-            print(doc['tod'].toDate());
+
             var date = doc['tod'].toDate();
 
             return Card(
@@ -64,11 +95,21 @@ class _OrdersState extends State<Orders> {
                       children: <Widget>[
                         RaisedButton(
                           child: Icon(FontAwesomeIcons.check),
-                          onPressed: () {},
+                          onPressed: () {
+                            Firestore.instance
+                                .collection('orders')
+                                .document(doc.documentID)
+                                .updateData({'orderStatus': 'AUTORIZADO'});
+                          },
                         ),
                         RaisedButton(
                           child: Icon(FontAwesomeIcons.times),
-                          onPressed: () {},
+                          onPressed: () {
+                            Firestore.instance
+                                .collection('orders')
+                                .document(doc.documentID)
+                                .updateData({'orderStatus': 'CANCELADO'});
+                          },
                         )
                       ],
                     )

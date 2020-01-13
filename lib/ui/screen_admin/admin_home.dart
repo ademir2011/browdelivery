@@ -31,7 +31,9 @@ class _AdminHomeState extends State<AdminHome> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (build) => Orders(),
+                  builder: (build) => Orders(
+                    typeScreen: "PEDIDOS_FEITOS",
+                  ),
                 ),
               );
             },
@@ -40,19 +42,46 @@ class _AdminHomeState extends State<AdminHome> {
         Card(
           child: ListTile(
             title: Text('Pedidos autorizados'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (build) => Orders(
+                    typeScreen: "PEDIDOS_AUTORIZADOS",
+                  ),
+                ),
+              );
+            },
           ),
         ),
         Card(
           child: ListTile(
             title: Text('Pedidos cancelados'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (build) => Orders(
+                    typeScreen: "PEDIDOS_CANCELADOS",
+                  ),
+                ),
+              );
+            },
           ),
         ),
         Card(
           child: ListTile(
             title: Text('Pedidos concluídos'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (build) => Orders(
+                    typeScreen: "PEDIDOS_CONCLUIDOS",
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ],
