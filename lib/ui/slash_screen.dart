@@ -1,5 +1,4 @@
 import 'package:brow/ui/autentication.dart';
-import 'package:brow/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -19,11 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => Home(
-                  gData: null,
-                  googleSignIn: null,
-                  order: null,
-                )),
+          builder: (context) => Autentication(),
+        ),
       );
     });
   }

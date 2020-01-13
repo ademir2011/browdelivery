@@ -116,9 +116,11 @@ class _CartState extends State<Cart> {
           initialTime: TimeOfDay.now(),
         ).then((value) {
           if (value == null)
-            _scaffoldKey.currentState.showSnackBar(SnackBar(
-              content: Text('Hora não selecionada!'),
-            ));
+            _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                content: Text('Hora não selecionada!'),
+              ),
+            );
           order.tod = value;
           return value;
         });

@@ -1,4 +1,5 @@
 import 'package:brow/ui/home.dart';
+import 'package:brow/ui/screen_admin/admin_home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -48,6 +49,9 @@ class _AutenticationState extends State<Autentication> {
                   icon: Icon(FontAwesomeIcons.user),
                   labelText: "Login",
                 ),
+                validator: (value) {
+                  return value.isEmpty ? 'Nenhuma valor inserido' : null;
+                },
               ),
               SizedBox(
                 height: 20.0,
@@ -57,6 +61,9 @@ class _AutenticationState extends State<Autentication> {
                   icon: Icon(FontAwesomeIcons.lock),
                   labelText: "Senha",
                 ),
+                validator: (value) {
+                  return value.isEmpty ? 'Nenhuma valor inserido' : null;
+                },
               ),
               SizedBox(
                 height: 50.0,
@@ -75,7 +82,11 @@ class _AutenticationState extends State<Autentication> {
                           Text("Logar"),
                         ],
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          print("logando...");
+                        }
+                      },
                     ),
                     RaisedButton(
                       child: Row(
@@ -104,14 +115,21 @@ class _AutenticationState extends State<Autentication> {
   void logar() {
     _googleSignIn.signIn().then((gData) {
       print('Usuário ${gData.displayName} autenticado!');
+
+      if (gData.email == "ademirbezerra2012@gmail.com") {
+        print("usuario administrador");
+      }
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (build) => Home(
-            order: null,
-            gData: gData,
-            googleSignIn: _googleSignIn,
-          ),
+          builder: (build) => gData.email != "ademirbezerra2012@gmail.com"
+              ? Home(
+                  order: null,
+                  gData: gData,
+                  googleSignIn: _googleSignIn,
+                )
+              : AdminHome(),
         ),
       );
     }).catchError((err) => print('error ==> $err'));
