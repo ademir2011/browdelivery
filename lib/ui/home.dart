@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
       appBar: buildAppBar(),
       body: Column(
         children: <Widget>[
-          fbt(),
+          // fbt(),
           Text(!orderFinished ? "" : "Pedido enviado!"),
           buildCardWaiting(),
           buildCardSection(),

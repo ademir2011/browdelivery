@@ -1,5 +1,6 @@
+import 'package:brow/helpers/brow_database.dart';
 import 'package:brow/model/order.dart';
-import 'package:brow/ui/wait.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -121,7 +122,10 @@ class _CartState extends State<Cart> {
                 content: Text('Hora não selecionada!'),
               ),
             );
-          order.tod = value;
+          final now = DateTime.now();
+          DateTime dt =
+              DateTime(now.year, now.month, now.day, value.hour, value.minute);
+          order.tod = Timestamp.fromDate(dt);
           return value;
         });
 
@@ -137,14 +141,19 @@ class _CartState extends State<Cart> {
       child: Text('Solicitar'),
       onPressed: () {
         if (_formKey.currentState.validate() && horarioChegada != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Wait(
-                order: order,
-              ),
-            ),
-          );
+          BrowDatabase bd = BrowDatabase();
+
+          bd.saveOrder(order);
+
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => Wait(
+          //       order: order,
+          //     ),
+          //   ),
+          // );
+
         }
       },
     );

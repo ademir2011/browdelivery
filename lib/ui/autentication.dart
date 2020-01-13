@@ -84,7 +84,12 @@ class _AutenticationState extends State<Autentication> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          print("logando...");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => Home(),
+                            ),
+                          );
                         }
                       },
                     ),
