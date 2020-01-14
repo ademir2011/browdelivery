@@ -5,7 +5,8 @@ class Order {
   String location;
   int amountBrownie;
   String orderStatus;
-  Timestamp tod;
+  DateTime todDateTime;
+  String tod;
   String userName;
 
   Order(
@@ -14,6 +15,16 @@ class Order {
       this.orderStatus,
       this.tod,
       this.userName});
+
+  Order.fromMap(Map map) {
+    this.id = map['id'];
+    this.location = map['location'];
+    this.amountBrownie = map['amountBrownie'];
+    this.orderStatus = map['orderStatus'];
+    this.tod = map['tod'];
+    this.todDateTime = DateTime.parse(map['tod']);
+    this.userName = map['userName'];
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,4 +35,6 @@ class Order {
       'userName': userName,
     };
   }
+
+  Timestamp getTodTimeStamp() => Timestamp.fromDate(todDateTime);
 }

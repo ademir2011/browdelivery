@@ -1,5 +1,6 @@
-import 'package:brow/helpers/brow_database.dart';
 import 'package:brow/model/order.dart';
+import 'package:brow/dao/orderDAO.dart';
+import 'package:brow/ui/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,12 +11,13 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  String defaultValue = null;
+  String defaultValue;
   TimeOfDay horarioChegada;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Order order = Order();
+  OrderDAO orderDAO = OrderDAO();
 
   @override
   Widget build(BuildContext context) {
@@ -123,9 +125,9 @@ class _CartState extends State<Cart> {
               ),
             );
           final now = DateTime.now();
-          DateTime dt =
+          order.todDateTime =
               DateTime(now.year, now.month, now.day, value.hour, value.minute);
-          order.tod = Timestamp.fromDate(dt);
+          order.tod = order.todDateTime.toIso8601String();
           return value;
         });
 
@@ -141,19 +143,17 @@ class _CartState extends State<Cart> {
       child: Text('Solicitar'),
       onPressed: () {
         if (_formKey.currentState.validate() && horarioChegada != null) {
-          BrowDatabase bd = BrowDatabase();
-
-          bd.saveOrder(order);
-
-          // Navigator.push(
+          orderDAO.saveOrder(order).then((order) {
+            print("Item salvo!");
+          });
+          // Navigator.pop(
           //   context,
           //   MaterialPageRoute(
-          //     builder: (context) => Wait(
+          //     builder: (context) => Home(
           //       order: order,
           //     ),
           //   ),
           // );
-
         }
       },
     );

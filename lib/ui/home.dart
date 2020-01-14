@@ -1,3 +1,4 @@
+import 'package:brow/dao/orderDAO.dart';
 import 'package:brow/model/order.dart';
 import 'package:brow/ui/autentication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -105,19 +106,28 @@ class _HomeState extends State<Home> {
     );
   }
 
+  OrderDAO orderDAO = OrderDAO();
+
   Widget buildListView() {
-    return ListView.builder(
-      padding: EdgeInsets.all(
-        10.0,
-      ),
-      itemCount: 10,
-      itemBuilder: (context, i) {
-        return getRow(i);
+    return FutureBuilder<List>(
+      future: orderDAO.getAllOrders(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              return getRow(snapshot.data[index]);
+            },
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
       },
     );
   }
 
-  Widget getRow(i) {
+  Widget getRow(Order data) {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
@@ -127,8 +137,8 @@ class _HomeState extends State<Home> {
           ),
           backgroundColor: Colors.amber,
         ),
-        title: Text('10/12/2019'),
-        subtitle: Text('Quantidade: 3212'),
+        title: Text(data.location),
+        subtitle: Text('Quantidade: ${data.amountBrownie}'),
         onTap: () {},
         trailing: Icon(FontAwesomeIcons.undo),
       ),
