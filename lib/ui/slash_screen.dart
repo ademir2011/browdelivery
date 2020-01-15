@@ -32,15 +32,20 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(
-            FontAwesomeIcons.shoppingCart,
-            size: 100.0,
+            FontAwesomeIcons.storeAlt,
+            size: 80.0,
             color: Colors.brown,
           ),
+          SizedBox(
+            height: 20.0,
+          ),
           Text(
-            "Brow",
+            "Brow Delivery",
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.brown,
               decoration: TextDecoration.none,
+              fontSize: 30.0,
             ),
           ),
         ],

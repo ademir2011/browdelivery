@@ -4,28 +4,28 @@ import 'package:brow/ui/autentication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:brow/ui/cart.dart';
+import 'package:brow/ui/screen_user/cart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Home extends StatefulWidget {
   final Order order;
-  final GoogleSignInAccount gData;
-  final GoogleSignIn googleSignIn;
+  // final GoogleSignInAccount gData;
+  // final GoogleSignIn googleSignIn;
 
-  Home({Key key, this.order, this.gData, this.googleSignIn}) : super(key: key);
+  Home({Key key, this.order}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState(order, gData, googleSignIn);
+  _HomeState createState() => _HomeState(order);
 }
 
 class _HomeState extends State<Home> {
   Order order;
-  GoogleSignInAccount gData;
-  GoogleSignIn _googleSignIn;
+  // GoogleSignInAccount gData;
+  // GoogleSignIn _googleSignIn;
   final _scaffoldkey = GlobalKey<ScaffoldState>();
   bool orderFinished = false;
 
-  _HomeState(this.order, this.gData, this._googleSignIn);
+  _HomeState(this.order);
 
   // CollectionReference orderReference =
   //     Firestore.instance.collection('Orders').reference();
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
           child: IconButton(
             icon: Icon(FontAwesomeIcons.times),
             onPressed: () {
-              _googleSignIn.signOut();
+              // _googleSignIn.signOut();
               Navigator.pushReplacement(
                 this.context,
                 MaterialPageRoute(
@@ -161,7 +161,7 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Icon(
                     FontAwesomeIcons.bars,
-                    size: 50.0,
+                    size: 30.0,
                   ),
                   SizedBox(
                     width: 10.0,

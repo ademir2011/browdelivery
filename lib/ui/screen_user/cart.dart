@@ -1,7 +1,6 @@
 import 'package:brow/model/order.dart';
 import 'package:brow/dao/orderDAO.dart';
-import 'package:brow/ui/home.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:brow/ui/screen_user/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -146,14 +145,14 @@ class _CartState extends State<Cart> {
           orderDAO.saveOrder(order).then((order) {
             print("Item salvo!");
           });
-          // Navigator.pop(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => Home(
-          //       order: order,
-          //     ),
-          //   ),
-          // );
+          Navigator.pop(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(
+                order: order,
+              ),
+            ),
+          );
         }
       },
     );

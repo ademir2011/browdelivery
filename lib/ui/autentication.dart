@@ -1,5 +1,5 @@
-import 'package:brow/ui/home.dart';
 import 'package:brow/ui/screen_admin/admin_home.dart';
+import 'package:brow/ui/screen_user/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -129,11 +129,7 @@ class _AutenticationState extends State<Autentication> {
         context,
         MaterialPageRoute(
           builder: (build) => gData.email != "ademirbezerra2012@gmail.com"
-              ? Home(
-                  order: null,
-                  gData: gData,
-                  googleSignIn: _googleSignIn,
-                )
+              ? Home(order: null)
               : AdminHome(),
         ),
       );
