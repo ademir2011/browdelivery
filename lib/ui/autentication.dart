@@ -1,3 +1,4 @@
+import 'package:brow/components/app_bar.dart';
 import 'package:brow/ui/screen_admin/admin_home.dart';
 import 'package:brow/ui/screen_user/home.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +12,14 @@ class Autentication extends StatefulWidget {
 
 class _AutenticationState extends State<Autentication> {
   final _formKey = GlobalKey<FormState>();
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+  // GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(),
-        body: buildLogin(),
-        resizeToAvoidBottomPadding: false);
-  }
-
-  Widget buildAppBar() {
-    return AppBar(
-      title: Text("Brow Delivery"),
+      appBar: WidgetAppBar.build(),
+      body: buildLogin(),
+      resizeToAvoidBottomPadding: false,
     );
   }
 
@@ -37,7 +33,7 @@ class _AutenticationState extends State<Autentication> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(
-                FontAwesomeIcons.shoppingCart,
+                FontAwesomeIcons.storeAlt,
                 size: 60.0,
                 color: Colors.brown,
               ),
@@ -93,20 +89,20 @@ class _AutenticationState extends State<Autentication> {
                         }
                       },
                     ),
-                    RaisedButton(
-                      child: Row(
-                        children: <Widget>[
-                          Icon(FontAwesomeIcons.google),
-                          SizedBox(
-                            width: 30.0,
-                          ),
-                          Text("Logar com conta Google"),
-                        ],
-                      ),
-                      onPressed: () {
-                        logar();
-                      },
-                    ),
+                    // RaisedButton(
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Icon(FontAwesomeIcons.google),
+                    //       SizedBox(
+                    //         width: 30.0,
+                    //       ),
+                    //       Text("Logar com conta Google"),
+                    //     ],
+                    //   ),
+                    //   onPressed: () {
+                    //     logar();
+                    //   },
+                    // ),
                   ],
                 ),
               ),
@@ -117,22 +113,22 @@ class _AutenticationState extends State<Autentication> {
     );
   }
 
-  void logar() {
-    _googleSignIn.signIn().then((gData) {
-      print('Usuário ${gData.displayName} autenticado!');
+  // void logar() {
+  //   _googleSignIn.signIn().then((gData) {
+  //     print('Usuário ${gData.displayName} autenticado!');
 
-      if (gData.email == "ademirbezerra2012@gmail.com") {
-        print("usuario administrador");
-      }
+  //     if (gData.email == "ademirbezerra2012@gmail.com") {
+  //       print("usuario administrador");
+  //     }
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (build) => gData.email != "ademirbezerra2012@gmail.com"
-              ? Home(order: null)
-              : AdminHome(),
-        ),
-      );
-    }).catchError((err) => print('error ==> $err'));
-  }
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (build) => gData.email != "ademirbezerra2012@gmail.com"
+  //             ? Home(order: null)
+  //             : AdminHome(),
+  //       ),
+  //     );
+  //   }).catchError((err) => print('error ==> $err'));
+  // }
 }
